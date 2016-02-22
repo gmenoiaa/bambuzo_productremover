@@ -24,6 +24,22 @@
  */
 class Bambuzo_Productremover_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * 
+     */
+    public function getNotViewedProductsCount() {
+        
+        $count = intval(Mage::getStoreConfig('bambuzo_productremover/general/count'));
+        return $count;
+    }
+    
+    /**
+     *
+     */
+    public function setNotViewedProductsCount($count) {
+    
+        Mage::getConfig()->saveConfig('bambuzo_productremover/general/count', $count);
+    }
 
     /**
      * convert array to options
@@ -37,7 +53,7 @@ class Bambuzo_Productremover_Helper_Data extends Mage_Core_Helper_Abstract
     public function convertOptions ($options)
     {
         $converted = array();
-        foreach ($options as $option) {
+        foreach ($options         as $option) {
             if (isset($option['value']) && ! is_array($option['value']) &&
                      isset($option['label']) && ! is_array($option['label'])) {
                 $converted[$option['value']] = $option['label'];

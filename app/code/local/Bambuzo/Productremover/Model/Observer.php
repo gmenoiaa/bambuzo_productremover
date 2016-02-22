@@ -25,45 +25,53 @@
 class Bambuzo_Productremover_Model_Observer extends Mage_Core_Model_Abstract
 {
 
-    private static $_count;
-    
     /**
      */
     public function notify ()
     {
         $count = $this->checkMessage();
         
-        $mail = Mage::getModel('core/email');
-        $mail->setToName('John Customer');
-        $mail->setToEmail('geiser@onerhino.com');
-        $mail->setBody(
-                "Hi, there are $count products not viewed in the last 90 days. Please check it and trigger the removal in admin panel.");
-        $mail->setSubject('Products not viewed to remove');
-        $mail->setFromEmail(
-                Mage::getStoreConfig('trans_email/ident_general/email'));
-        $mail->setFromName(
-                Mage::getStoreConfig('trans_email/ident_general/name'));
-        $mail->setType('text');
+        Mage::helper('bambuzo_productremover')->setNotViewedProductsCount(
+                $count);
         
-        try {
-            $mail->send();
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
+        /*
+         * $mail = Mage::getModel('core/email');
+         * $mail->setToName('John Customer');
+         * $mail->setToEmail('geiser@onerhino.com');
+         * $mail->setBody(
+         * "Hi, there are $count products not viewed in the last 90 days. Please
+         * check it and trigger the removal in admin panel.");
+         * $mail->setSubject('Products not viewed to remove');
+         * $mail->setFromEmail(
+         * Mage::getStoreConfig('trans_email/ident_general/email'));
+         * $mail->setFromName(
+         * Mage::getStoreConfig('trans_email/ident_general/name'));
+         * $mail->setType('text');
+         *
+         * try {
+         * $mail->send();
+         * } catch (Exception $e) {
+         * Mage::logException($e);
+         * }
+         */
+        
+        return $count;
     }
 
     /**
      */
-    public function checkMessage ($refresh = false)
+    public function checkMessage ()
     {
-        $count = Mage::registry('productremover_notviewedproduct_count');
-        if ($refresh || ! $count) {
-            $collection = Mage::getSingleton(
-                    'bambuzo_productremover/notviewedproduct')->getCollection();
-            $count = $collection->getSize();
-            Mage::register('productremover_notviewedproduct_count', $count);
-        }
+        $collection = Mage::getSingleton(
+                'bambuzo_productremover/notviewedproduct')->getCollection();
         
+        Mage::log('Refreshing not viewed product count...');
+        Mage::log((string)$collection->getSelect());
+        
+        $count = $collection->getSize();
+        
+        Mage::log('Done.');
+
         return $count;
     }
 }

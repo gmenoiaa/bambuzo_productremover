@@ -5,13 +5,7 @@ class Bambuzo_Productremover_Block_Adminhtml_Notifications extends Mage_Adminhtm
 
     public function getMessage ()
     {
-        $session = Mage::getSingleton('core/session');
-        $count = $session->getNotviewedproductCount();
-        
-        if ($count == null) {
-            $count = Mage::getSingleton('bambuzo_productremover/observer')->checkMessage();
-            $session->setNotviewedproductCount($count);
-        }
+        $count = Mage::helper('bambuzo_productremover')->getNotViewedProductsCount();            
         
         $message = null;
         if ($count > 0) {
