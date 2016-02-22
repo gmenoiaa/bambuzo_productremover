@@ -43,7 +43,7 @@
         <jobs>
             <productremovercron>
                 <schedule>
-                    <cron_expr>* 0 * * *</cron_expr>
+                    <cron_expr>0 0 1 * *</cron_expr>
                 </schedule>
                 <run>
                     <model>bambuzo_productremover/observer::notify</model>
