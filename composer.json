@@ -8,5 +8,7 @@
             "email": "geiser@onerhino.com"
         }
     ],
-    "require": {}
+    "require": {
+    	"magento-hackathon/magento-composer-installer": "dev-master"
+    }
 }
