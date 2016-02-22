@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Bambuzo_Productremover>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </Bambuzo_Productremover>
     </modules>
     <global>

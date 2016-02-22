@@ -64,8 +64,8 @@ class Bambuzo_Productremover_Model_Notviewedproduct extends Mage_Core_Model_Abst
         
         foreach ($notviewedproductIds as $notviewedproductId) {
             $product = Mage::getSingleton('catalog/product')->load($notviewedproductId);
-            //Mage::dispatchEvent('catalog_controller_product_delete', array('product' => $product));
-            //$product->delete();
+            Mage::dispatchEvent('catalog_controller_product_delete', array('product' => $product));
+            $product->delete();
         }
         
         return $file;
