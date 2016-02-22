@@ -1,0 +1,12 @@
+{
+    "name": "bambuzo/productremover",
+    "description": "Product remover module",
+    "type": "magento-module",
+    "authors": [
+        {
+            "name": "Geiser Menoia",
+            "email": "geiser@onerhino.com"
+        }
+    ],
+    "require": {}
+}

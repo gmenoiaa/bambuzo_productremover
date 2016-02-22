@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bambuzo_Productremover extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Bambuzo
+ * @package        Bambuzo_Productremover
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <bambuzo_productremover translate="title" module="bambuzo_productremover">
+                                        <title>Productremover</title>
+                                    </bambuzo_productremover>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <catalog>
+                        <children>
+                            <bambuzo_productremover translate="title" module="bambuzo_productremover">
+                                <title>Product Remover</title>
+                                <children>
+                                    <notviewedproduct translate="title" module="bambuzo_productremover">
+                                        <title>Not Viewed Product</title>
+                                        <sort_order>0</sort_order>
+                                    </notviewedproduct>
+                                </children>
+                            </bambuzo_productremover>                        
+                        </children>
+                    </catalog>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <catalog>
+            <children>
+                <bambuzo_productremover translate="title" module="bambuzo_productremover">
+                    <title>Product Remover</title>
+                    <sort_order>115</sort_order>
+                    <children>
+                        <notviewedproduct translate="title" module="bambuzo_productremover">
+                            <title>Not Viewed Product</title>
+                            <action>adminhtml/productremover_notviewedproduct</action>
+                            <sort_order>0</sort_order>
+                        </notviewedproduct>
+                    </children>
+                </bambuzo_productremover>            
+              </children>
+        </catalog>
+
+    </menu>
+</config>

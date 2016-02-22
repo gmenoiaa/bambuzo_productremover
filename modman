@@ -1,0 +1,6 @@
+app/code/local/Bambuzo/Productremover                 app/code/local/Bambuzo/Productremover                
+app/design/adminhtml/default/default/layout/bambuzo   app/design/adminhtml/default/default/layout/bambuzo  
+app/design/adminhtml/default/default/template/bambuzo app/design/adminhtml/default/default/template/bambuzo
+app/etc/modules/Bambuzo_Productremover.xml            app/etc/modules/Bambuzo_Productremover.xml           
+app/locale/en_US/Bambuzo_Productremover.csv           app/locale/en_US/Bambuzo_Productremover.csv          
+shell/productremover.php                              shell/productremover.php                             

@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Bambuzo_Productremover extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Bambuzo
+ * @package        Bambuzo_Productremover
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+    <modules>
+        <Bambuzo_Productremover>
+            <version>1.0.1</version>
+        </Bambuzo_Productremover>
+    </modules>
+    <global>
+        <blocks>
+            <bambuzo_productremover>
+                <class>Bambuzo_Productremover_Block</class>
+            </bambuzo_productremover>
+        </blocks>
+        <helpers>
+            <bambuzo_productremover>
+                <class>Bambuzo_Productremover_Helper</class>
+            </bambuzo_productremover>
+        </helpers>
+        <models>
+            <bambuzo_productremover>
+                <class>Bambuzo_Productremover_Model</class>
+            </bambuzo_productremover>
+        </models>
+    </global>
+     <crontab>
+        <jobs>
+            <productremovercron>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>bambuzo_productremover/observer::notify</model>
+                </run>
+            </productremovercron>
+        </jobs>
+    </crontab>
+    <adminhtml>
+        <layout>
+            <updates>
+                <bambuzo_productremover>
+                    <file>bambuzo/productremover.xml</file>
+                </bambuzo_productremover>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Bambuzo_Productremover>
+                    <files>
+                        <default>Bambuzo_Productremover.csv</default>
+                    </files>
+                </Bambuzo_Productremover>
+            </modules>
+        </translate>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Bambuzo_Productremover before="Mage_Adminhtml">Bambuzo_Productremover_Adminhtml</Bambuzo_Productremover>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>
