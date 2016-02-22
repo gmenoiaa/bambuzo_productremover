@@ -27,9 +27,6 @@ class Bambuzo_Productremover_Model_Notviewedproduct extends Mage_Core_Model_Abst
 
     public function getCollection ($productIds = array())
     {
-        $from = date('Y-m-d H:i:s', strtotime('-90 days'));
-        $viewedProducts = $this->findViewedProductIds($from);
-        
         $collection = Mage::getModel('catalog/product')->getCollection();
         $collection->addAttributeToSelect('name');
         $collection->addAttributeToSelect('status');
@@ -45,10 +42,19 @@ class Bambuzo_Productremover_Model_Notviewedproduct extends Mage_Core_Model_Abst
                             'in' => $productIds
                     ));
         } else {
-            $collection->addFieldToFilter('entity_id', 
-                    array(
-                            'nin' => $viewedProducts
-                    ));
+            
+            $from = date('Y-m-d H:i:s', strtotime('-90 days'));
+            $now = date('Y-m-d H:i:s', time());
+            
+            $viewedProducts = "SELECT `e`.`entity_id` FROM `report_event` AS `report_table_views` ";
+            $viewedProducts .= "INNER JOIN `catalog_product_entity` AS `e` ON e.entity_id = report_table_views.object_id AND e.entity_type_id = 4 ";
+            $viewedProducts .= "WHERE (report_table_views.event_type_id = 1) ";
+            $viewedProducts .= "AND (logged_at >= '$from') ";
+            $viewedProducts .= "AND (logged_at <= '$now') ";
+            $viewedProducts .= "GROUP BY `e`.`entity_id`";
+            $viewedProducts .= "HAVING (COUNT(report_table_views.event_id) > 0) ";
+            
+            $collection->getSelect()->where("e.entity_id not in ( $viewedProducts )");
         }
         
         return $collection;
@@ -85,24 +91,5 @@ class Bambuzo_Productremover_Model_Notviewedproduct extends Mage_Core_Model_Abst
         $srcFile = $file['value'];
 
         return $srcFile;
-    }
-
-    /**
-     *
-     * @param unknown $from            
-     */
-    private function findViewedProductIds ($from)
-    {
-        $collection = Mage::getResourceModel('reports/product_collection');
-        $collection->addViewsCount($from, now());
-        
-        $viewedProducts = Mage::helper('bambuzo_productremover')->walk(
-                $collection, 
-                function  ($product)
-                {
-                    return $product->getId();
-                });
-        
-        return $viewedProducts;
     }
 }
