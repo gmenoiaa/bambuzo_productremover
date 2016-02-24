@@ -96,7 +96,7 @@ TEXT;
             );
         } else {
             try {
-                $file = Mage::getSingleton('bambuzo_productremover/notviewedproduct')->deleteProducts($notviewedproductIds);
+                $file = Mage::getSingleton('bambuzo_productremover/productremover')->deleteProducts($notviewedproductIds);
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('bambuzo_productremover')->__('Total of %d not viewed products were successfully deleted. See products at %s', count($notviewedproductIds), $file)
                 );
@@ -122,7 +122,7 @@ TEXT;
     public function exportCsvAction()
     {
         $fileName   = 'notviewedproduct.csv';
-        $content    = $this->getLayout()->createBlock('bambuzo_productremover/adminhtml_notviewedproduct_grid')
+        $content    = $this->getLayout()->createBlock('bambuzo_productremover/adminhtml_productremover_grid')
             ->getCsv();
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -137,7 +137,7 @@ TEXT;
     public function exportExcelAction()
     {
         $fileName   = 'notviewedproduct.xls';
-        $content    = $this->getLayout()->createBlock('bambuzo_productremover/adminhtml_notviewedproduct_grid')
+        $content    = $this->getLayout()->createBlock('bambuzo_productremover/adminhtml_productremover_grid')
             ->getExcelFile();
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -152,7 +152,7 @@ TEXT;
     public function exportXmlAction()
     {
         $fileName   = 'notviewedproduct.xml';
-        $content    = $this->getLayout()->createBlock('bambuzo_productremover/adminhtml_notviewedproduct_grid')
+        $content    = $this->getLayout()->createBlock('bambuzo_productremover/adminhtml_productremover_grid')
             ->getXml();
         $this->_prepareDownloadResponse($fileName, $content);
     }

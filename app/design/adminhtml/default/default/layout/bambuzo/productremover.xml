@@ -33,21 +33,21 @@
             <block type="bambuzo_productremover/adminhtml_notviewedproduct_grid" name="notviewedproduct_grid"/>
         </block>
     </adminhtml_productremover_notviewedproduct_grid>
-    <!-- Notviewedproduct add/edit action -->
-    <adminhtml_productremover_notviewedproduct_edit>
-        <update handle="editor"/>
+
+
+
+
+    <adminhtml_productremover_uploadremove_index>
         <reference name="menu">
             <action method="setActive">
-                <menupath>catalog/bambuzo_productremover/notviewedproduct</menupath>
+                <menupath>catalog/bambuzo_productremover/uploadremove</menupath>
             </action>
         </reference>
         <reference name="content">
-            <block type="bambuzo_productremover/adminhtml_notviewedproduct_edit" name="notviewedproduct_edit"></block>
+            <block type="bambuzo_productremover/adminhtml_uploadremove" name="uploadremove" />
         </reference>
-        <reference name="left">
-            <block type="bambuzo_productremover/adminhtml_notviewedproduct_edit_tabs" name="notviewedproduct_tabs"></block>
-        </reference>
-    </adminhtml_productremover_notviewedproduct_edit>
+    </adminhtml_productremover_uploadremove_index>
+
     
    	<adminhtml_dashboard_index>
         <reference name="notifications">
