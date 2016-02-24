@@ -22,20 +22,22 @@ class Bambuzo_Productremover_Shell_Productremover extends Mage_Shell_Abstract
             
             echo "Found $count products to delete\n";
             
-            Mage::helper('bambuzo_productremover')->walk($collection, 
-                    function  ($product)
-                    {
-                        return $product->getId();
-                    }, 
-                    function  ($ids)
-                    {
-                        echo "Deleting " . count($ids) . " products..\n";
-                        if ($this->_delete) {
-                            Mage::getSingleton(
-                                    'bambuzo_productremover/productremover')->deleteProducts(
-                                    $ids);
-                        }
-                    });
+            if ($this->_delete) {
+                Mage::helper('bambuzo_productremover')->walk($collection, 
+                        function  ($product)
+                        {
+                            return $product->getId();
+                        }, 
+                        function  ($ids)
+                        {
+                            
+                            echo "Deleting " . count($ids) . " products..\n";
+                            $model = Mage::getSingleton(
+                                    'bambuzo_productremover/productremover');
+                            $model->setDebug(true);
+                            $model->deleteProducts($ids);
+                        });
+            }
             
             echo "Done.\n";
         } else 
@@ -51,12 +53,12 @@ class Bambuzo_Productremover_Shell_Productremover extends Mage_Shell_Abstract
                 
                 if ($this->_delete) {
                     echo "Deleting products...\n";
-
-                    $model = Mage::getSingleton('bambuzo_productremover/productremover');
+                    
+                    $model = Mage::getSingleton(
+                            'bambuzo_productremover/productremover');
                     $model->setDebug(true);
                     
-                    list($file,$rows) = $model->deleteProductsBySku(
-                            $skus);
+                    list ($file, $rows) = $model->deleteProductsBySku($skus);
                     
                     echo "Created log file $file\n";
                     echo "Deleted total $rows products\n";
