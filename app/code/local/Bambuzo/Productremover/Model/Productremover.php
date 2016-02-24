@@ -48,7 +48,11 @@ class Bambuzo_Productremover_Model_Productremover extends Mage_Core_Model_Abstra
         $query = "DELETE FROM `$table` WHERE `entity_id` IN (" .
                  implode(',', $parsedIds) . ")";
         
-        return $this->executeQuery($query);
+        $count = $this->executeQuery($query);
+        return array(
+                $file,
+                $count
+        );
     }
 
     /**
@@ -59,18 +63,37 @@ class Bambuzo_Productremover_Model_Productremover extends Mage_Core_Model_Abstra
     {
         $file = $this->saveCsvFile(null, $skus);
         
-        $parsedSkus = array();
-        foreach ($skus as $sku) {
-            $parsedSkus[] = "'$sku'";
-        }
+        $total = count($skus);
+        $max = 10;
+        $pages = ceil($total / $max);
+        $offset = 0;
         
-        $table = Mage::getSingleton('core/resource')->getTableName(
-                'catalog/product');
+        do {
+            $subset = array_slice($skus, $offset, $max);
+            
+            if (empty($subset)) {
+                break;
+            }
+            
+            $parsedSkus = array();
+            foreach ($subset as $sku) {
+                $parsedSkus[] = "'$sku'";
+            }
+            
+            $table = Mage::getSingleton('core/resource')->getTableName(
+                    'catalog/product');
+            
+            $query = "DELETE FROM `$table` WHERE `sku` IN (" .
+                     implode(',', $parsedSkus) . ")";
+            
+            $count += $this->executeQuery($query);
+            $offset += $max;
+        } while (true);
         
-        $query = "DELETE FROM `$table` WHERE `sku` IN (" .
-                 implode(',', $parsedSkus) . ")";
-        
-        return $this->executeQuery($query);
+        return array(
+                $file,
+                $count
+        );
     }
 
     private function executeQuery ($query)
@@ -82,10 +105,7 @@ class Bambuzo_Productremover_Model_Productremover extends Mage_Core_Model_Abstra
         $rows = Mage::getSingleton('core/resource')->getConnection('core_write')->exec(
                 $query);
         
-        return array(
-                $file,
-                $rows
-        );
+        return $rows;
     }
 
     /**
